@@ -1,6 +1,6 @@
 # Jana
 
-A Vite plugin that transforms Markdown files into HTML, with automatic escaping of Svelte syntax in code blocks.
+A Vite plugin that transforms Markdown files into HTML, allowing you to import and use Svelte components directly in your Markdown content. Extensible with remark and rehype plugins.
 
 ## Features
 
@@ -8,6 +8,7 @@ A Vite plugin that transforms Markdown files into HTML, with automatic escaping 
 - Seamless Markdown processing in Vite
 - Automatic escaping of Svelte syntax (`{`, `}`) in code blocks
 - Full Markdown to HTML conversion
+- Extensible with remark and rehype plugins
 - Fast and lightweight (no syntax highlighting overhead)
 - SvelteKit and Vite compatible
 
@@ -66,7 +67,7 @@ Import Markdown files directly as Svelte components:
 
 In SvelteKit, you can use Markdown files directly as route pages:
 
-```
+```txt
 src/routes/blog/+page.md
 ```
 
@@ -101,7 +102,34 @@ Jana uses the [unified](https://unifiedjs.com/) ecosystem to process Markdown:
 
 The plugin automatically processes any file ending with `.md` during Vite's build process.
 
-> **Note:** Support for custom unified plugins (remark and rehype) will be added in a future release.
+## Advanced Usage
+
+### Custom Unified Plugins
+
+Jana supports adding custom [remark](https://github.com/remarkjs/remark) and [rehype](https://github.com/rehypejs/rehype) plugins to extend functionality:
+
+```js
+import { defineConfig } from "vite";
+import { jana } from "@khotwa/jana";
+import remarkGfm from "remark-gfm";
+import rehypeShiki from "rehype-shiki";
+
+export default defineConfig({
+  plugins: [
+    jana({
+      plugins: {
+        remark: [remarkGfm],
+        rehype: [[rehypeShiki, { theme: "github-dark" }]],
+      },
+    }),
+  ],
+});
+```
+
+**Plugin format:**
+
+- Plugins can be passed as a function: `[remarkGfm]`
+- Or as a tuple with options: `[[rehypeSlug, { prefix: "heading-" }]]`
 
 ## License
 

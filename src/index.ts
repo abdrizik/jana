@@ -3,13 +3,9 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import type { Plugin } from "vite";
-import { rehypeEscapeSvelte } from "./plugins/rehypeEscapeSvelte.js";
-
-const processor = unified()
-  .use(remarkParse)
-  .use(remarkRehype, { allowDangerousHtml: true })
-  .use(rehypeEscapeSvelte)
-  .use(rehypeStringify, { allowDangerousHtml: true });
+import { rehypeEscapeSvelte } from "./plugins/rehypeEscapeSvelte";
+import type { JanaOptions } from "./types/index";
+import { usePlugins } from "./utils/index";
 
 /**
  * Vite plugin that transforms Markdown files into HTML with Svelte-specific escaping.
@@ -23,9 +19,38 @@ const processor = unified()
  * })
  * ```
  *
+ * @example
+ * ```ts
+ * import { jana } from '@khotwa/jana'
+ * import remarkGfm from 'remark-gfm'
+ * import rehypeSlug from 'rehype-slug'
+ *
+ * export default defineConfig({
+ *   plugins: [
+ *     jana({
+ *       plugins: {
+ *         remark: [remarkGfm],
+ *         rehype: [[rehypeSlug, { prefix: 'heading-' }]]
+ *       }
+ *     })
+ *   ]
+ * })
+ * ```
+ *
+ * @param options - Configuration options for the plugin
  * @returns A Vite plugin instance
  */
-export function jana(): Plugin {
+export function jana(options: JanaOptions = {}): Plugin {
+  const { plugins = {} } = options;
+
+  const processor = unified()
+    .use(remarkParse)
+    .use(usePlugins(plugins.remark))
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(usePlugins(plugins.rehype))
+    .use(rehypeEscapeSvelte)
+    .use(rehypeStringify, { allowDangerousHtml: true });
+
   return {
     name: "jana",
     enforce: "pre",
