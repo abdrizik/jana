@@ -4,6 +4,7 @@ A Vite plugin that transforms Markdown files into HTML, with automatic escaping 
 
 ## Features
 
+- **Import Svelte components inside Markdown files** - Use Svelte components directly in your Markdown content
 - Seamless Markdown processing in Vite
 - Automatic escaping of Svelte syntax (`{`, `}`) in code blocks
 - Full Markdown to HTML conversion
@@ -70,6 +71,24 @@ src/routes/blog/+page.md
 ```
 
 The Markdown file will be automatically processed and rendered as a Svelte page when accessed via the route.
+
+### Using Svelte Components in Markdown
+
+You can import and use Svelte components directly inside your Markdown files:
+
+```markdown
+<script>
+  import MyComponent from './MyComponent.svelte'
+</script>
+
+# My Blog Post
+
+This is regular markdown content.
+
+<MyComponent />
+
+You can use components anywhere in your markdown!
+```
 
 ## How It Works
 
