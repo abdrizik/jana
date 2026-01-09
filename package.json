@@ -1,11 +1,17 @@
 {
-  "name": "ts-package-template",
+  "name": "@khotwa/jana",
   "type": "module",
   "version": "0.0.0",
   "packageManager": "pnpm@10.27.0",
-  "description": "A minimal TypeScript package template with ES modules support",
+  "description": "A Vite plugin for processing Markdown files with Svelte-specific features.",
   "license": "MIT",
-  "keywords": [],
+  "keywords": [
+    "vite",
+    "plugin",
+    "markdown",
+    "svelte",
+    "jana"
+  ],
   "sideEffects": false,
   "exports": {
     ".": {
@@ -17,6 +23,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
@@ -24,8 +33,14 @@
     "typecheck": "tsc"
   },
   "devDependencies": {
+    "@shikijs/rehype": "^3.21.0",
+    "rehype-stringify": "^10.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
     "tsdown": "^0.17.4",
     "typescript": "^5.9.3",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.0.0",
     "vite": "^7.3.1"
   }
 }
