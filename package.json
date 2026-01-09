@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.1.7",
   "packageManager": "pnpm@10.27.0",
-  "description": "A Vite plugin for processing Markdown files with Svelte-specific features.",
+  "description": "Vite plugin for Markdown with Svelte component support and unified plugins",
   "license": "MIT",
   "keywords": [
     "vite",
