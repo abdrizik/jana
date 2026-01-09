@@ -1,0 +1,31 @@
+{
+  "name": "ts-package-template",
+  "type": "module",
+  "version": "0.0.0",
+  "packageManager": "pnpm@10.27.0",
+  "description": "A minimal TypeScript package template with ES modules support",
+  "license": "MIT",
+  "keywords": [],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "prepublishOnly": "pnpm build",
+    "typecheck": "tsc"
+  },
+  "devDependencies": {
+    "tsdown": "^0.17.4",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  }
+}
