@@ -1,9 +1,9 @@
-import type { PluggableList } from "unified";
+import type { PluggableList } from 'unified'
 
 /**
  * Component mapping - maps HTML elements to Svelte component paths
  */
-export type ComponentMap = Record<string, string>;
+export type ComponentMap = Record<string, string>
 
 /**
  * Configuration options for the jana plugin
@@ -14,12 +14,12 @@ export interface JanaOptions {
    * @default 'src/lib/components/prose'
    * @example 'src/components/prose'
    */
-  prose?: string;
+  prose?: string
   /**
    * Map HTML elements to custom Svelte components (explicit config)
    * @example { pre: '$lib/components/Code.svelte' }
    */
-  components?: ComponentMap;
+  components?: ComponentMap
   /**
    * Custom unified plugins to extend functionality
    */
@@ -28,11 +28,11 @@ export interface JanaOptions {
      * Array of remark plugins to use
      * Can be a plugin function or a tuple [plugin, options]
      */
-    remark?: PluggableList;
+    remark?: PluggableList
     /**
      * Array of rehype plugins to use
      * Can be a plugin function or a tuple [plugin, options]
      */
-    rehype?: PluggableList;
-  };
+    rehype?: PluggableList
+  }
 }

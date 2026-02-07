@@ -1,24 +1,23 @@
 {
   "name": "@khotwa/jana",
-  "type": "module",
   "version": "0.1.9",
-  "packageManager": "pnpm@10.27.0",
   "description": "Vite plugin for Markdown with Svelte component support and unified plugins",
-  "license": "MIT",
   "keywords": [
-    "vite",
-    "plugin",
+    "jana",
     "markdown",
-    "svelte",
-    "remark",
-    "rehype",
-    "unified",
+    "plugin",
     "prose",
-    "jana"
+    "rehype",
+    "remark",
+    "svelte",
+    "unified",
+    "vite"
   ],
-  "engines": {
-    "node": ">=18"
-  },
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
   "sideEffects": false,
   "exports": {
     ".": {
@@ -27,23 +26,23 @@
     },
     "./package.json": "./package.json"
   },
-  "files": [
-    "dist"
-  ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
     "prepublishOnly": "pnpm build",
     "typecheck": "tsc"
   },
-  "peerDependencies": {
-    "vite": ">=5"
-  },
   "devDependencies": {
     "@types/node": "^22.10.0",
+    "oxfmt": "^0.28.0",
+    "oxlint": "^1.43.0",
     "rehype-stringify": "^10.0.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
@@ -52,5 +51,12 @@
     "unified": "^11.0.5",
     "unist-util-visit": "^5.0.0",
     "vite": "^7.3.1"
-  }
+  },
+  "peerDependencies": {
+    "vite": ">=5"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "pnpm@10.27.0"
 }

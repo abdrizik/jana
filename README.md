@@ -27,15 +27,15 @@ npm install @khotwa/jana
 Add Jana to your `vite.config.js` or `vite.config.ts`:
 
 ```js
-import { defineConfig } from "vite";
-import { jana } from "@khotwa/jana";
+import { defineConfig } from 'vite'
+import { jana } from '@khotwa/jana'
 
 export default defineConfig({
   plugins: [
-    jana(),
+    jana()
     // ... other plugins
-  ],
-});
+  ]
+})
 ```
 
 #### 2. Configure Svelte Extensions
@@ -44,9 +44,9 @@ Add `.md` to the extensions in your `svelte.config.js`:
 
 ```js
 const config = {
-  extensions: [".svelte", ".md"],
+  extensions: ['.svelte', '.md']
   // ... rest of your config
-};
+}
 ```
 
 ### Using Markdown Files
@@ -109,21 +109,21 @@ The plugin automatically processes any file ending with `.md` during Vite's buil
 Jana supports adding custom [remark](https://github.com/remarkjs/remark) and [rehype](https://github.com/rehypejs/rehype) plugins to extend functionality:
 
 ```js
-import { defineConfig } from "vite";
-import { jana } from "@khotwa/jana";
-import remarkGfm from "remark-gfm";
-import rehypeShiki from "rehype-shiki";
+import { defineConfig } from 'vite'
+import { jana } from '@khotwa/jana'
+import remarkGfm from 'remark-gfm'
+import rehypeShiki from 'rehype-shiki'
 
 export default defineConfig({
   plugins: [
     jana({
       plugins: {
         remark: [remarkGfm],
-        rehype: [[rehypeShiki, { theme: "github-dark" }]],
-      },
-    }),
-  ],
-});
+        rehype: [[rehypeShiki, { theme: 'github-dark' }]]
+      }
+    })
+  ]
+})
 ```
 
 **Plugin format:**
