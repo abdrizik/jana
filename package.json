@@ -10,8 +10,15 @@
     "plugin",
     "markdown",
     "svelte",
+    "remark",
+    "rehype",
+    "unified",
+    "prose",
     "jana"
   ],
+  "engines": {
+    "node": ">=18"
+  },
   "sideEffects": false,
   "exports": {
     ".": {
@@ -32,7 +39,11 @@
     "prepublishOnly": "pnpm build",
     "typecheck": "tsc"
   },
+  "peerDependencies": {
+    "vite": ">=5"
+  },
   "devDependencies": {
+    "@types/node": "^22.10.0",
     "rehype-stringify": "^10.0.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",

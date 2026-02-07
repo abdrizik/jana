@@ -1,60 +1,54 @@
+import { join } from "path";
 import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
-import type { Plugin } from "vite";
+import { rehypeComponents } from "./plugins/rehypeComponents";
 import { rehypeEscapeSvelte } from "./plugins/rehypeEscapeSvelte";
+import { remarkCodeMeta } from "./plugins/remarkCodeMeta";
 import { remarkComponentToBlock } from "./plugins/remarkComponentToBlock";
-import type { JanaOptions } from "./types/index";
-import { usePlugins } from "./utils/index";
+import type { ComponentMap, JanaOptions } from "./types/index";
+import { scanProseComponents } from "./utils/scanProse";
 
-/**
- * Vite plugin that transforms Markdown files into HTML with Svelte-specific escaping.
- *
- * @example
- * ```ts
- * import { jana } from '@khotwa/jana'
- *
- * export default defineConfig({
- *   plugins: [jana()]
- * })
- * ```
- *
- * @param options - Configuration options for the plugin
- * @returns A Vite plugin instance
- */
-export function jana(options: JanaOptions = {}): Plugin {
-  const { plugins = {} } = options;
-
-  const processor = unified()
-    // 1. Markdown → mdast
-    .use(remarkParse)
-    .use(remarkComponentToBlock)
-    .use(usePlugins(plugins.remark))
-
-    // 2. mdast → hast
-    .use(remarkRehype, { allowDangerousHtml: true })
-
-    // 3. hast → HTML (Svelte-safe)
-    .use(usePlugins(plugins.rehype))
-    .use(rehypeEscapeSvelte)
-    .use(rehypeStringify, { allowDangerousHtml: true });
+export function jana(options: JanaOptions = {}) {
+  const { plugins = {}, prose = "src/lib/components/prose" } = options;
+  let components: ComponentMap = {};
 
   return {
     name: "jana",
-    enforce: "pre",
-    async transform(code, id) {
+    enforce: "pre" as const,
+
+    configResolved(config: { root: string }) {
+      components = {
+        ...scanProseComponents(join(config.root, prose), prose),
+        ...options.components,
+      };
+    },
+
+    async transform(code: string, id: string) {
       if (!id.endsWith(".md")) return null;
 
-      try {
-        const result = await processor.process(code);
+      const remark = [...(plugins.remark ?? [])];
+      const rehype = [...(plugins.rehype ?? [])];
 
-        return {
-          code: result.toString(),
-          map: null,
-        };
-      } catch (error: unknown) {
-        console.error(`Failed to process Markdown file "${id}":`, error);
+      if (components.pre) remark.push(remarkCodeMeta);
+      if (Object.keys(components).length)
+        rehype.push([rehypeComponents, components]);
+
+      try {
+        const result = await unified()
+          .use(remarkParse)
+          .use(remarkComponentToBlock)
+          .use(remark)
+          .use(remarkRehype, { allowDangerousHtml: true })
+          .use(rehype)
+          .use(rehypeEscapeSvelte)
+          .use(rehypeStringify, { allowDangerousHtml: true })
+          .process(code);
+
+        return { code: result.toString(), map: null };
+      } catch (e) {
+        console.error(`[jana] ${id}:`, e);
         return null;
       }
     },
