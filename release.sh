@@ -52,23 +52,18 @@ npm version "$VERSION" --no-git-tag-version
 
 # Commit and push branch
 git add package.json
-git commit -m "chore: bump version to ${VERSION}"
+git commit -m "chore: release v${VERSION}"
 git push -u origin "$BRANCH"
 
 # Create PR
 echo "Creating pull request..."
 PR_URL=$(gh pr create \
-  --title "chore: release ${VERSION}" \
-  --body "Bump version to ${VERSION}." \
+  --title "chore: release v${VERSION}" \
+  --body "Release v${VERSION}." \
   --base main \
   --head "$BRANCH")
 
 echo ""
 echo "PR created: ${PR_URL}"
 echo ""
-echo "Next steps:"
-echo "  1. Merge the PR"
-echo "  2. Run: git checkout main && git pull origin main"
-echo "  3. Run: git tag ${TAG} && git push origin ${TAG}"
-echo ""
-echo "The tag push triggers the release workflow which publishes to npm."
+echo "Merge the PR and CI will automatically tag ${TAG} and publish to npm."
